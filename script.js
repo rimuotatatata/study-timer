@@ -9,6 +9,7 @@ const starSky = document.getElementById("star-sky");
 const totalTime = document.getElementById("total-time");
 const historyMessage = document.getElementById("history-message");
 const weeklyTotal = document.getElementById("weekly-total");
+const subjectSummary = document.getElementById("subject-summary");
 
 const today = new Date();
 const month = today.getMonth() + 1;
@@ -86,6 +87,7 @@ function updateTotalTime() {
     "今日の合計：" + formattedMinutes + ":" + formattedSeconds;
 
   updateStudyHistory();
+  updateSubjectSummary();
 }
 
 function getHistoryDateKey() {
@@ -131,6 +133,24 @@ weeklyTotal.textContent =
   });
 
   historyMessage.innerHTML = historyLines.join("<br>");
+}
+
+function updateSubjectSummary() {
+  subjectSummary.innerHTML = "";
+
+  subjects.forEach(function (subject) {
+    const subjectSeconds = Number(
+      localStorage.getItem("elapsedSeconds-" + subject)
+    ) || 0;
+
+    const item = document.createElement("p");
+
+    item.classList.add("subject-summary-item");
+    item.textContent =
+      subject + "：" + formatHistoryTime(subjectSeconds);
+
+    subjectSummary.appendChild(item);
+  });
 }
 
 const constellations = [
