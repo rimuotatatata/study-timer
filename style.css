@@ -119,3 +119,37 @@ button:disabled {
   position: relative;
   z-index: 1;
 }
+
+@media (max-width: 480px) {
+  .timer-app {
+    padding: 24px 18px;
+  }
+
+  .app-header h1,
+  .app-header p {
+    font-size: 18px;
+  }
+
+  .subject-tabs {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .subject-tab {
+    padding: 7px 11px;
+    font-size: 14px;
+  }
+
+  #elapsed-time {
+    margin: 50px 0 45px;
+    font-size: 80px;
+  }
+
+  .timer-controls {
+    gap: 16px;
+  }
+
+  .timer-controls button {
+    font-size: 18px;
+  }
+}
