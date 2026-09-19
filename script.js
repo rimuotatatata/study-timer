@@ -6,6 +6,7 @@ const todayDate = document.getElementById("today-date");
 const subjectTabsContainer = document.getElementById("subject-tabs");
 const editSubjectsButton = document.getElementById("edit-subjects-button");
 const starSky = document.getElementById("star-sky");
+const totalTime = document.getElementById("total-time");
 
 const today = new Date();
 const month = today.getMonth() + 1;
@@ -69,6 +70,18 @@ function getTotalSeconds() {
   });
 
   return totalSeconds;
+}
+
+function updateTotalTime() {
+  const totalSeconds = getTotalSeconds();
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+
+  const formattedMinutes = String(minutes).padStart(2, "0");
+  const formattedSeconds = String(seconds).padStart(2, "0");
+
+  totalTime.textContent =
+    "今日の合計：" + formattedMinutes + ":" + formattedSeconds;
 }
 
 const constellations = [
@@ -215,8 +228,10 @@ function renderSubjectTabs() {
       ) || 0;
 
       updateTime();
+      updateTotalTime();
       updateButtons();
       renderSubjectTabs();
+      renderStars();
     });
 
     subjectTabsContainer.appendChild(button);
@@ -230,8 +245,10 @@ startButton.addEventListener("click", function () {
 
   timerId = setInterval(function () {
     elapsedSeconds = elapsedSeconds + 1;
+
     updateTime();
     saveTime();
+    updateTotalTime();
     renderStars();
   }, 1000);
 
@@ -243,6 +260,7 @@ stopButton.addEventListener("click", function () {
   timerId = null;
 
   saveTime();
+  updateTotalTime();
   updateButtons();
 });
 
@@ -253,6 +271,7 @@ resetButton.addEventListener("click", function () {
 
   saveTime();
   updateTime();
+  updateTotalTime();
   updateButtons();
   renderStars();
 });
@@ -291,16 +310,18 @@ editSubjectsButton.addEventListener("click", function () {
     elapsedSeconds = Number(
       localStorage.getItem("elapsedSeconds-" + currentSubject)
     ) || 0;
-
-    updateTime();
   }
 
+  updateTime();
+  updateTotalTime();
   renderSubjectTabs();
+  renderStars();
 });
 
 todayDate.textContent = month + "月" + date + "日";
 
 updateTime();
+updateTotalTime();
 updateButtons();
 renderSubjectTabs();
 renderStars();
