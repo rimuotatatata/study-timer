@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>study timer</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <main class="timer-app">
+    <header class="app-header">
+      <h1>study timer</h1>
+      <p id="today-date">○月○日</p>
+    </header>
+
+    <nav id="subject-tabs" class="subject-tabs" aria-label="教科を選ぶ">
+    </nav>
+
+    <section class="sky-area">
+        <p class="sky-title">今日の夜空</p>
+        <svg
+        id="star-sky"
+        viewBox="0 0 100 100"
+        aria-label="勉強時間で完成する星座"
+        ></svg>
+    </section>
+
+    <button id="edit-subjects-button" class="edit-subjects-button">
+        教科を編集
+    </button>
+
+    <p id="elapsed-time">00:00</p>
+
+    <section class="timer-controls">
+      <button id="start-button">スタート</button>
+      <button id="stop-button">ストップ</button>
+      <button id="reset-button">リセット</button>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

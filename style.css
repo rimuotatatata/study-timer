@@ -1,0 +1,121 @@
+body {
+  margin: 0;
+  background-color: #202020;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+.timer-app {
+  position: relative;
+  overflow: hidden;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 34px 36px;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.app-header h1,
+.app-header p {
+  margin: 0;
+  font-size: 22px;
+}
+
+.subject-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 35px;
+}
+
+.subject-tab {
+  border: 1px solid white;
+  background: none;
+  color: white;
+  padding: 8px 14px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.subject-tab.active {
+  background-color: white;
+  color: #202020;
+}
+
+#elapsed-time {
+  margin: 65px 0 55px;
+  text-align: center;
+  font-size: 110px;
+  font-weight: bold;
+}
+
+.timer-controls {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+}
+
+.timer-controls button {
+  border: none;
+  background: none;
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.edit-subjects-button {
+  display: block;
+  margin: 16px auto 0;
+  border: none;
+  background: none;
+  color: white;
+  font-size: 14px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.sky-area {
+  margin: 0;
+}
+
+.sky-title {
+  display: none;
+}
+
+#star-sky {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.constellation-line {
+  stroke: #8ecaff;
+  stroke-width: 0.5;
+  opacity: 0.7;
+}
+
+.constellation-star {
+  fill: white;
+  filter: drop-shadow(0 0 4px white);
+}
+
+.app-header,
+.subject-tabs,
+#elapsed-time,
+.timer-controls,
+.edit-subjects-button {
+  position: relative;
+  z-index: 1;
+}
