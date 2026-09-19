@@ -184,3 +184,30 @@ button:disabled {
   color: #d8e4ff;
   font-size: 14px;
 }
+
+.study-history h3 {
+  margin: 22px 0 10px;
+  font-size: 16px;
+}
+
+#weekly-total {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #ffffff33;
+  font-weight: bold;
+}
+
+#subject-summary {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.subject-summary-item {
+  margin: 0;
+  padding: 10px;
+  border: 1px solid #ffffff33;
+  border-radius: 8px;
+  background-color: #162443aa;
+  text-align: center;
+}
