@@ -8,6 +8,7 @@ const editSubjectsButton = document.getElementById("edit-subjects-button");
 const starSky = document.getElementById("star-sky");
 const totalTime = document.getElementById("total-time");
 const historyMessage = document.getElementById("history-message");
+const weeklyTotal = document.getElementById("weekly-total");
 
 const today = new Date();
 const month = today.getMonth() + 1;
@@ -117,6 +118,13 @@ function updateStudyHistory() {
   localStorage.setItem("studyHistory", JSON.stringify(history));
 
   const dateKeys = Object.keys(history).sort().reverse().slice(0, 7);
+
+  const weeklySeconds = dateKeys.reduce(function (total, dateKey) {
+  return total + history[dateKey];
+}, 0);
+
+weeklyTotal.textContent =
+  "直近7日間の合計：" + formatHistoryTime(weeklySeconds);
 
   const historyLines = dateKeys.map(function (dateKey) {
     return dateKey + "　" + formatHistoryTime(history[dateKey]);
