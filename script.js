@@ -10,6 +10,12 @@ const totalTime = document.getElementById("total-time");
 const historyMessage = document.getElementById("history-message");
 const weeklyTotal = document.getElementById("weekly-total");
 const subjectSummary = document.getElementById("subject-summary");
+const goalMessage = document.getElementById("goal-message");
+const goalProgress = document.getElementById("goal-progress");
+const editGoalButton = document.getElementById("edit-goal-button");
+
+let dailyGoalMinutes =
+  Number(localStorage.getItem("dailyGoalMinutes")) || 120;
 
 const today = new Date();
 const month = today.getMonth() + 1;
@@ -22,7 +28,8 @@ let subjects = JSON.parse(
   localStorage.getItem("subjects")
 ) || defaultSubjects;
 
-let currentSubject = localStorage.getItem("currentSubject") || subjects[0];
+let currentSubject =
+  localStorage.getItem("currentSubject") || subjects[0];
 
 const savedDate = localStorage.getItem("savedDate");
 
@@ -47,7 +54,8 @@ function updateTime() {
   const formattedMinutes = String(minutes).padStart(2, "0");
   const formattedSeconds = String(seconds).padStart(2, "0");
 
-  elapsedTime.textContent = formattedMinutes + ":" + formattedSeconds;
+  elapsedTime.textContent =
+    formattedMinutes + ":" + formattedSeconds;
 }
 
 function saveTime() {
@@ -75,19 +83,14 @@ function getTotalSeconds() {
   return totalSeconds;
 }
 
-function updateTotalTime() {
-  const totalSeconds = getTotalSeconds();
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = totalSeconds % 60;
+function formatHistoryTime(seconds) {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
 
   const formattedMinutes = String(minutes).padStart(2, "0");
-  const formattedSeconds = String(seconds).padStart(2, "0");
+  const formattedSeconds = String(remainingSeconds).padStart(2, "0");
 
-  totalTime.textContent =
-    "今日の合計：" + formattedMinutes + ":" + formattedSeconds;
-
-  updateStudyHistory();
-  updateSubjectSummary();
+  return formattedMinutes + ":" + formattedSeconds;
 }
 
 function getHistoryDateKey() {
@@ -97,16 +100,6 @@ function getHistoryDateKey() {
   const day = String(now.getDate()).padStart(2, "0");
 
   return year + "-" + month + "-" + day;
-}
-
-function formatHistoryTime(seconds) {
-  const minutes = Math.floor(seconds / 60);
-  const remainingSeconds = seconds % 60;
-
-  const formattedMinutes = String(minutes).padStart(2, "0");
-  const formattedSeconds = String(remainingSeconds).padStart(2, "0");
-
-  return formattedMinutes + ":" + formattedSeconds;
 }
 
 function updateStudyHistory() {
@@ -122,11 +115,11 @@ function updateStudyHistory() {
   const dateKeys = Object.keys(history).sort().reverse().slice(0, 7);
 
   const weeklySeconds = dateKeys.reduce(function (total, dateKey) {
-  return total + history[dateKey];
-}, 0);
+    return total + history[dateKey];
+  }, 0);
 
-weeklyTotal.textContent =
-  "直近7日間の合計：" + formatHistoryTime(weeklySeconds);
+  weeklyTotal.textContent =
+    "直近7日間の合計：" + formatHistoryTime(weeklySeconds);
 
   const historyLines = dateKeys.map(function (dateKey) {
     return dateKey + "　" + formatHistoryTime(history[dateKey]);
@@ -151,6 +144,37 @@ function updateSubjectSummary() {
 
     subjectSummary.appendChild(item);
   });
+}
+
+function updateDailyGoal() {
+  const totalSeconds = getTotalSeconds();
+  const studiedMinutes = Math.floor(totalSeconds / 60);
+
+  const progressPercent = Math.min(
+    (totalSeconds / (dailyGoalMinutes * 60)) * 100,
+    100
+  );
+
+  goalMessage.textContent =
+    "今日の目標：" + studiedMinutes + " / " + dailyGoalMinutes + "分";
+
+  goalProgress.style.width = progressPercent + "%";
+}
+
+function updateTotalTime() {
+  const totalSeconds = getTotalSeconds();
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+
+  const formattedMinutes = String(minutes).padStart(2, "0");
+  const formattedSeconds = String(seconds).padStart(2, "0");
+
+  totalTime.textContent =
+    "今日の合計：" + formattedMinutes + ":" + formattedSeconds;
+
+  updateStudyHistory();
+  updateSubjectSummary();
+  updateDailyGoal();
 }
 
 const constellations = [
@@ -264,7 +288,8 @@ function renderStars() {
       starSky.appendChild(star);
     }
 
-    remainingStars = remainingStars - constellation.points.length;
+    remainingStars =
+      remainingStars - constellation.points.length;
   });
 }
 
@@ -343,6 +368,30 @@ resetButton.addEventListener("click", function () {
   updateTotalTime();
   updateButtons();
   renderStars();
+});
+
+editGoalButton.addEventListener("click", function () {
+  const input = prompt(
+    "今日の目標時間を分で入力してください。",
+    dailyGoalMinutes
+  );
+
+  if (input === null) {
+    return;
+  }
+
+  const newGoalMinutes = Number(input);
+
+  if (!Number.isFinite(newGoalMinutes) || newGoalMinutes <= 0) {
+    alert("1以上の数字を入力してください。");
+    return;
+  }
+
+  dailyGoalMinutes = Math.floor(newGoalMinutes);
+
+  localStorage.setItem("dailyGoalMinutes", dailyGoalMinutes);
+
+  updateDailyGoal();
 });
 
 editSubjectsButton.addEventListener("click", function () {

@@ -211,3 +211,43 @@ button:disabled {
   background-color: #162443aa;
   text-align: center;
 }
+
+.daily-goal {
+  position: relative;
+  z-index: 1;
+  width: min(360px, 100%);
+  margin: 16px auto 0;
+}
+
+#goal-message {
+  margin: 0 0 8px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.goal-bar {
+  height: 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background-color: #ffffff33;
+}
+
+#goal-progress {
+  width: 0%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #79bfff, #d8a7ff);
+  transition: width 0.3s ease;
+}
+
+.edit-goal-button {
+  display: block;
+  margin: 10px auto 0;
+  padding: 6px 12px;
+  border: 1px solid #ffffff66;
+  border-radius: 999px;
+  color: #eaf2ff;
+  background: transparent;
+  font-size: 13px;
+  cursor: pointer;
+}
