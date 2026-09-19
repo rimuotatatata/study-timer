@@ -7,6 +7,7 @@ const subjectTabsContainer = document.getElementById("subject-tabs");
 const editSubjectsButton = document.getElementById("edit-subjects-button");
 const starSky = document.getElementById("star-sky");
 const totalTime = document.getElementById("total-time");
+const historyMessage = document.getElementById("history-message");
 
 const today = new Date();
 const month = today.getMonth() + 1;
@@ -82,6 +83,46 @@ function updateTotalTime() {
 
   totalTime.textContent =
     "今日の合計：" + formattedMinutes + ":" + formattedSeconds;
+
+  updateStudyHistory();
+}
+
+function getHistoryDateKey() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+
+  return year + "-" + month + "-" + day;
+}
+
+function formatHistoryTime(seconds) {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+
+  const formattedMinutes = String(minutes).padStart(2, "0");
+  const formattedSeconds = String(remainingSeconds).padStart(2, "0");
+
+  return formattedMinutes + ":" + formattedSeconds;
+}
+
+function updateStudyHistory() {
+  const history = JSON.parse(
+    localStorage.getItem("studyHistory") || "{}"
+  );
+
+  const historyTodayKey = getHistoryDateKey();
+  history[historyTodayKey] = getTotalSeconds();
+
+  localStorage.setItem("studyHistory", JSON.stringify(history));
+
+  const dateKeys = Object.keys(history).sort().reverse().slice(0, 7);
+
+  const historyLines = dateKeys.map(function (dateKey) {
+    return dateKey + "　" + formatHistoryTime(history[dateKey]);
+  });
+
+  historyMessage.innerHTML = historyLines.join("<br>");
 }
 
 const constellations = [

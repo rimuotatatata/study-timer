@@ -161,3 +161,26 @@ button:disabled {
   text-align: center;
   font-size: 16px;
 }
+
+.study-history {
+  position: relative;
+  z-index: 1;
+  width: min(360px, 100%);
+  margin: 28px auto 0;
+  padding: 18px;
+  box-sizing: border-box;
+  border: 1px solid #ffffff55;
+  border-radius: 12px;
+  background-color: #0d1830aa;
+}
+
+.study-history h2 {
+  margin: 0 0 10px;
+  font-size: 18px;
+}
+
+.study-history p {
+  margin: 0;
+  color: #d8e4ff;
+  font-size: 14px;
+}
