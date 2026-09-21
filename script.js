@@ -13,6 +13,7 @@ const subjectSummary = document.getElementById("subject-summary");
 const goalMessage = document.getElementById("goal-message");
 const goalProgress = document.getElementById("goal-progress");
 const editGoalButton = document.getElementById("edit-goal-button");
+const goalStatus = document.getElementById("goal-status");
 
 let dailyGoalMinutes =
   Number(localStorage.getItem("dailyGoalMinutes")) || 120;
@@ -159,6 +160,12 @@ function updateDailyGoal() {
     "今日の目標：" + studiedMinutes + " / " + dailyGoalMinutes + "分";
 
   goalProgress.style.width = progressPercent + "%";
+
+  if (totalSeconds >= dailyGoalMinutes * 60) {
+  goalStatus.textContent = "目標達成！ おつかれさま！";
+  } else {
+  goalStatus.textContent = "";
+  }
 }
 
 function updateTotalTime() {
